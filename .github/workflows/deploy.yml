@@ -13,20 +13,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Grant execute permission to mvnw
+      - name: Find and grant execute permission to mvnw
         run: |
           mvnw_path=$(find . -name mvnw)
           echo "mvnw found at: $mvnw_path"
           chmod +x "$mvnw_path"
-          cd "$(dirname "$mvnw_path")"  # Change directory to where mvnw is located
+          cd "$(dirname "$mvnw_path")"
 
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: '11' # or the Java version required by your application
+          java-version: '11'
 
       - name: Install dependencies and build
         run: |
+          mvnw_path=$(find . -name mvnw)
+          echo "mvnw found at: $mvnw_path"
           ./mvnw install -DskipTests=true
           ls -l target # Debug statement to list the contents of the target directory
 
@@ -39,4 +41,4 @@ jobs:
           environment_name: Milestone-env
           region: us-west-2
           version_label: ${{ github.sha }}
-          deployment_package: target/app.jar # Specify the exact path to the JAR file
+          deployment_package: target/app.jar
