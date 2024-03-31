@@ -19,13 +19,6 @@ jobs:
           echo "mvnw found at: $mvnw_path"
           chmod +x "$mvnw_path"
 
-
-      - name: Debug - Check mvnw permissions
-        run: ls -l Backend/milestone-1/mvnw
-
-      - name: Debug - List contents of milestone-1 directory
-        run: ls -l Backend/milestone-1
-
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
