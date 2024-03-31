@@ -14,7 +14,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Grant execute permission to mvnw
-        run: chmod +x Backend/milestone-1/mvnw
+        run: |
+          mvnw_path=$(find . -name mvnw)
+          echo "mvnw found at: $mvnw_path"
+          chmod +x "$mvnw_path"
+
 
       - name: Debug - Check mvnw permissions
         run: ls -l Backend/milestone-1/mvnw
