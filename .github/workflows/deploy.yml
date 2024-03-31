@@ -18,6 +18,7 @@ jobs:
           mvnw_path=$(find . -name mvnw)
           echo "mvnw found at: $mvnw_path"
           chmod +x "$mvnw_path"
+          cd "$(dirname "$mvnw_path")"  # Change directory to where mvnw is located
 
       - name: Setup Java
         uses: actions/setup-java@v1
