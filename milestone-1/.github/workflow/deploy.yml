@@ -1,0 +1,38 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Grant execute permission
+        run: chmod +x mvnw
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11' # or the Java version required by your application
+
+      - name: Install dependencies and build
+        run: |
+          ./mvnw install -DskipTests=true
+          ls -l target # Debug statement to list the contents of the target directory
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: Milestone
+          environment_name: Milestone-env
+          region: us-west-2
+          version_label: ${{ github.sha }}
+          deployment_package: target/app.jar # Specify the exact path to the JAR file
