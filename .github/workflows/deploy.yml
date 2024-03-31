@@ -33,7 +33,6 @@ jobs:
           ./mvnw install -DskipTests=true
           ls -l target # Debug statement to list the contents of the target directory
 
-
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v14
         with:
@@ -43,4 +42,4 @@ jobs:
           environment_name: Milestone-env
           region: us-west-2
           version_label: ${{ github.sha }}
-          deployment_package: target/app.jar
+          deployment_package: ./milestone-1/target/app.jar # Specify the correct relative path
