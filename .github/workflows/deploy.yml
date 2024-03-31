@@ -13,8 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Grant execute permission
-        run: chmod +x mvnw
+      - name: Grant execute permission to mvnw
+         run: chmod +x milestone-1/.mvn/mvnw
+
 
       - name: Setup Java
         uses: actions/setup-java@v1
