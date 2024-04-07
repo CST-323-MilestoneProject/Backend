@@ -20,10 +20,8 @@ jobs:
 
       - name: Activate service account credentials
         run: |
-          echo "$GCP_SA_KEY" | base64 -d > /tmp/key.json
+          echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > /tmp/key.json
           gcloud auth activate-service-account --key-file=/tmp/key.json
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
       - name: Deploy to Google Cloud
         run: |
