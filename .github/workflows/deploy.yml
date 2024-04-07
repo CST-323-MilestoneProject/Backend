@@ -23,11 +23,10 @@ jobs:
 
       - name: Find Maven project directory
         run: |
-          project_dir=$(find . -name pom.xml -exec dirname {} \;)
-          echo "Found Maven project directory: $project_dir"
-
-      - name: Print directory contents
-        run: ls -la "$project_dir"
+          echo "Current directory:"
+          pwd
+          echo "List of directories containing pom.xml:"
+          find . -name pom.xml -exec dirname {} \;
 
       - name: Activate service account credentials
         run: gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
