@@ -18,10 +18,11 @@ jobs:
         with:
           java-version: '11'
 
+
       - name: Set Google Application Credentials
         run: |
-          $env:GOOGLE_APPLICATION_CREDENTIALS = "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
-        shell: bash
+          export GOOGLE_APPLICATION_CREDENTIALS="${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+
 
       - name: Deploy to Google Cloud
         run: |
