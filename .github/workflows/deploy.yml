@@ -27,4 +27,5 @@ jobs:
       - name: Deploy to Google App Engine
         run: |
           gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
+          cd Backend/milestone-1/
           mvn clean package appengine:deploy
