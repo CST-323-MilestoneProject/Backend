@@ -14,6 +14,9 @@
 	<description>Milestone project for CST-323</description>
 	<properties>
 		<java.version>11</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mysql.version>8.0.27</mysql.version>
+		<google.cloud.sql.version>1.0.5</google.cloud.sql.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -25,20 +28,29 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-
-		<!-- MySQL -->
+		
+		<!-- MySQL Connector -->
 		<dependency>
-    		<groupId>mysql</groupId>
-    		<artifactId>mysql-connector-java</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
 		</dependency>
 		
+		<!-- Google Cloud SQL Socket Factory -->
+		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory</artifactId>
+			<version>${google.cloud.sql.version}</version>
+		</dependency>
+		
+		<!-- Spring Boot Starter Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<!-- Logging Dependencies -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -50,21 +62,7 @@
 			<version>1.2.6</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.google.cloud.sql</groupId>
-			<artifactId>mysql-socket-factory</artifactId>
-			<version>1.0.5</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client</artifactId>
-			<version>1.23.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client-appengine</artifactId>
-			<version>1.21.0</version>
-		</dependency>
+		<!-- JAXB -->
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
@@ -75,10 +73,7 @@
 			<version>2.3.3</version>
 			<scope>runtime</scope>
 		</dependency>
-		
-		
 	</dependencies>
-	
 
 	<build>
 		<finalName>app</finalName>
@@ -88,16 +83,18 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			
+			<!-- Compiler Plugin -->
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-            
-            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			
+			<!-- Google Cloud Tools Plugin -->
+			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>appengine-maven-plugin</artifactId>
 				<version>2.2.0</version>
@@ -108,5 +105,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
