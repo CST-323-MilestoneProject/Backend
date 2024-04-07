@@ -1,4 +1,4 @@
-name: Deploy to Elastic Beanstalk
+name: Deploy to Google Cloud
 
 on:
   push:
@@ -13,13 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Find and grant execute permission to mvnw
-        run: |
-          mvnw_path=$(find . -name mvnw)
-          echo "mvnw found at: $mvnw_path"
-          chmod +x "$mvnw_path"
-          cd "$(dirname "$mvnw_path")"
-
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
@@ -33,13 +26,11 @@ jobs:
           ./mvnw install -DskipTests=true
           ls -l target # Debug statement to list the contents of the target directory
 
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v14
+      - name: Deploy to Google Cloud App Engine
+        uses: GoogleCloudPlatform/github-actions/deploy-appengine@main
         with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: Milestone
-          environment_name: Milestone-env
-          region: us-west-2
-          version_label: ${{ github.sha }}
-          deployment_package: ./milestone-1/target/app.jar # Specify the correct relative path
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          version: ${{ github.sha }}
+          runtime: java11
+          deploy_dir: ./milestone-1/target
