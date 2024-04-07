@@ -32,4 +32,4 @@ jobs:
       - name: Deploy to Google App Engine
         run: |
           gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
-          gcloud app deploy --project="${{ secrets.GCP_PROJECT_ID }}" --version="${{ github.sha }}" ./milestone-1/target/app.yaml
+          gcloud app deploy --project="${{ secrets.GCP_PROJECT_ID }}" --version="${{ github.sha }}" ./milestone-1/src/main/appengine/app.yaml
