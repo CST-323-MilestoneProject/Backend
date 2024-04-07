@@ -1,4 +1,4 @@
-name: Deploy to Google Cloud
+name: Update Google Cloud App
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - name: Activate service account credentials
         run: gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
 
-      - name: Change directory and deploy
+      - name: Deploy to Google Cloud
         run: |
           cd milestone-1
           mvn clean package appengine:deploy
