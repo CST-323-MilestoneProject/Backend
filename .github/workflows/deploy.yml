@@ -24,8 +24,13 @@ jobs:
       - name: Authenticate with Google Cloud
         run: echo '${{ secrets.GCP_SA_KEY }}' > "$HOME/gcp-key.json"
 
+      - name: Find Maven project directory
+        run: |
+          project_dir=$(find . -name pom.xml -exec dirname {} \;)
+          echo "Found Maven project directory: $project_dir"
+
       - name: Deploy to Google App Engine
         run: |
           gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
-          cd Backend/milestone-1/
+          cd "$project_dir"
           mvn clean package appengine:deploy
