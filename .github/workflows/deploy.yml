@@ -18,10 +18,10 @@ jobs:
         with:
           java-version: '11'
 
-      - name: Activate service account credentials
+      - name: Set Google Application Credentials
         run: |
-          echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > /tmp/key.json
-          gcloud auth activate-service-account --key-file=/tmp/key.json
+          $env:GOOGLE_APPLICATION_CREDENTIALS = "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+        shell: bash
 
       - name: Deploy to Google Cloud
         run: |
