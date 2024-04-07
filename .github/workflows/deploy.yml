@@ -26,6 +26,9 @@ jobs:
           project_dir=$(find . -name pom.xml -exec dirname {} \;)
           echo "Found Maven project directory: $project_dir"
 
+      - name: Print directory contents
+        run: ls -la "$project_dir"
+
       - name: Activate service account credentials
         run: gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
 
