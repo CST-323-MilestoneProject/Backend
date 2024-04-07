@@ -19,9 +19,12 @@ jobs:
           java-version: '11'
 
       - name: Install Google Cloud SDK
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@main
-        with:
-          version: 'latest'  # You can specify a specific version if needed
+        run: |
+          curl -sSL https://sdk.cloud.google.com | bash
+          exec -l $SHELL
+          gcloud init
+        env:
+          CLOUDSDK_CORE_DISABLE_PROMPTS: 1
 
       - name: Authenticate with Google Cloud
         run: gcloud auth activate-service-account --key-file=<(echo "${{ secrets.GCP_SA_KEY }}")
