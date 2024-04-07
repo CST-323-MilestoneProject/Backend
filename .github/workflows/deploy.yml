@@ -23,8 +23,8 @@ jobs:
       - name: Authenticate with Google Cloud
         run: gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
 
-      - name: List contents of project directory
-        run: ls -la "$project_dir"
+      - name: Get into project
+        run: cd milestone-1
 
       - name: Build and deploy with Maven
         run: mvn clean package appengine:deploy
