@@ -18,10 +18,12 @@ jobs:
         with:
           java-version: '11'
 
+      - name: Print Google Application Credentials
+        run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
+
       - name: Set Google Application Credentials
         run: |
-          echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" | base64 -d > /tmp/key.json
-          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/key.json
+          export GOOGLE_APPLICATION_CREDENTIALS="${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
 
       - name: Deploy to Google Cloud
         run: |
