@@ -1,5 +1,12 @@
+name: Deploy to Google App Engine
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,4 +28,3 @@ jobs:
 
       - name: Build and deploy with Maven
         run: mvn clean package appengine:deploy
- 
