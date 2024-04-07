@@ -18,19 +18,14 @@ jobs:
         with:
           java-version: '11'
 
-      - name: Install dependencies and build
-        run: |
-          mvnw_path=$(find . -name mvnw)
-          echo "mvnw found at: $mvnw_path"
-          cd "$(dirname "$mvnw_path")"  # Change directory to where mvnw is located
-          ./mvnw install -DskipTests=true
-          ls -l target # Debug statement to list the contents of the target directory
-
-      - name: Deploy to Google Cloud App Engine
-        uses: GoogleCloudPlatform/github-actions/deploy-appengine@main
+      - name: Install Google Cloud SDK
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@main
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          version: ${{ github.sha }}
-          runtime: java11
-          deploy_dir: ./milestone-1/target
+          version: 'latest'
+
+      - name: Authenticate with Google Cloud
+        run: gcloud auth activate-service-account --key-file=<(echo "${{ secrets.GCP_SA_KEY }}")
+
+      - name: Deploy to Google App Engine
+        run: |
+          gcloud app deploy --project=${{ secrets.GCP_PROJECT_ID }} --version=${{ github.sha }} ./milestone-1/target/app.yaml
