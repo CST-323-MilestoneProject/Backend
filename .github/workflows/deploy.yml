@@ -22,13 +22,18 @@ jobs:
         run: |
           curl -sSL https://sdk.cloud.google.com | bash
           exec -l $SHELL
-          gcloud init
+          gcloud components install app-engine-java
         env:
           CLOUDSDK_CORE_DISABLE_PROMPTS: 1
 
       - name: Authenticate with Google Cloud
-        run: gcloud auth activate-service-account --key-file=<(echo "${{ secrets.GCP_SA_KEY }}")
+        run: |
+          echo "$GCP_SA_KEY" > "$HOME"/gcp-key.json
+          gcloud auth activate-service-account --key-file="$HOME"/gcp-key.json
 
       - name: Deploy to Google App Engine
         run: |
-          gcloud app deploy --project=${{ secrets.GCP_PROJECT_ID }} --version=${{ github.sha }} ./milestone-1/target/app.yaml
+          gcloud app deploy --project="${GCP_PROJECT_ID}" --version="${GITHUB_SHA}" ./milestone-1/target/app.yaml
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
