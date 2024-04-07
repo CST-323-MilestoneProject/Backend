@@ -1,37 +1,23 @@
-name: Deploy to Google Cloud
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Java
+      - name: Set up Java JDK
         uses: actions/setup-java@v1
         with:
-          java-version: '11'
+          java-version: 11
+
+      - name: Install Maven
+        run: sudo apt-get install -y maven
 
       - name: Authenticate with Google Cloud
-        run: echo '${{ secrets.GCP_SA_KEY }}' > "$HOME/gcp-key.json"
-
-      - name: Find Maven project directory
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "List of directories containing pom.xml:"
-          find . -name pom.xml -exec dirname {} \;
-
-      - name: Activate service account credentials
         run: gcloud auth activate-service-account --key-file="$HOME/gcp-key.json"
 
-      - name: Change directory and deploy
-        run: |
-          cd "$project_dir"
-          mvn clean package appengine:deploy
+      - name: List contents of project directory
+        run: ls -la "$project_dir"
+
+      - name: Build and deploy with Maven
+        run: mvn clean package appengine:deploy
