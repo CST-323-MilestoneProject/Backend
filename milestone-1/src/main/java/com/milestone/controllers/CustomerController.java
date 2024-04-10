@@ -12,9 +12,12 @@ import com.milestone.model.Customer;
 
 import java.util.List;
 
+/**
+ * Controller class for handling HTTP requests related to customers.
+ */
 @RestController
 @RequestMapping("/api/customers")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Allow requests from any origin
 public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
@@ -22,6 +25,10 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
+    /**
+     * Endpoint for retrieving all customers.
+     * @return ResponseEntity containing a list of customers and HTTP status code.
+     */
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers() {
         logger.info("Entering getAllCustomers method");
@@ -30,6 +37,11 @@ public class CustomerController {
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
+    /**
+     * Endpoint for retrieving a customer by ID.
+     * @param id The ID of the customer to retrieve.
+     * @return ResponseEntity containing the customer and HTTP status code.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
         logger.info("Entering getCustomerById method with id: {}", id);
@@ -43,6 +55,11 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Endpoint for creating a new customer.
+     * @param customer The customer object to create.
+     * @return ResponseEntity containing the created customer and HTTP status code.
+     */
     @PostMapping
     public ResponseEntity<Customer> createNewCustomer(@RequestBody Customer customer) {
         logger.info("Entering createNewCustomer method with customer: {}", customer);
@@ -51,6 +68,12 @@ public class CustomerController {
         return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
     }
 
+    /**
+     * Endpoint for updating an existing customer.
+     * @param id The ID of the customer to update.
+     * @param updatedCustomer The updated customer object.
+     * @return ResponseEntity containing the updated customer and HTTP status code.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Customer> editCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
         logger.info("Entering editCustomer method with id: {} and updatedCustomer: {}", id, updatedCustomer);
@@ -72,6 +95,11 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Endpoint for deleting a customer by ID.
+     * @param id The ID of the customer to delete.
+     * @return ResponseEntity with HTTP status code indicating success or failure.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         logger.info("Entering deleteCustomer method with id: {}", id);
@@ -80,6 +108,9 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
+    /**
+     * Method for testing the controller.
+     */
     public void testController() {
         logger.info("Entering testController method");
         System.out.println("test successful");
